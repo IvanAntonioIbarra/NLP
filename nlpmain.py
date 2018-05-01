@@ -1,12 +1,16 @@
 import string
-from sklearn.feature_extraction_text import CountVectorizer
-from sklearn.niave_bayes import MultinomialNB
-
+import numpy as np
+import Cython
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from nltk import tokenize
+from nltk.corpus import stopwords
+ 
 if __name__ == 'main':
   sentence = "Se dirigió sin dilación hacia el fondo de la cueva Encontró un hueso de gamo. Todavía tenía algo de carne adherida. Empezó a triturarlo confruición"
 
   #tokenizar
-  tokens = sentence.split(' ')
+  tokens = sentence.split(',')
 
   #sentence cleaning
 
