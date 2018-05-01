@@ -1,39 +1,60 @@
 import string
-import numpy as np
-import Cython
-from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from nltk import tokenize
-from nltk.corpus import stopwords
- 
-if __name__ == 'main':
-  sentence = "Se dirigió sin dilación hacia el fondo de la cueva Encontró un hueso de gamo. Todavía tenía algo de carne adherida. Empezó a triturarlo confruición"
 
-  #tokenizar
-  tokens = sentence.split(',')
+if __name__ == '__main__':
+	
+	stopwords = ['los','al']
 
-  #sentence cleaning
+	sentence = "Los niños están jugando al tenis"
 
-  clean_token=[]
+	#Tokenization
+	tokens = sentence.split(" ")
 
-  for token in tokens:
+	#sentecne cleaning
+	clean_tokens = []
 
-    #remove punctuation
-    if all(char in set(string.punctuation) for char in token):
-      continue
+	for token in tokens:
+		if all(char in set(string.punctuation) for char in token):
+			continue
 
-    #remove numbers
-    if token.isdigit():
-      continue
+		if token.isdigit():
+			continue
 
-    #transform the token to lowcase and remove sentences
-    token= token.lower()
-    token = token.strip()
+		token = token.lower()
+		token = token.strip()
 
-    #remove stopworld 
-    if token in stopwords:
-      continue
-    clean_token.append(token)
+		if token in stopwords:
+			continue
+	
+		clean_tokens.append(token)
 
-  print(tokens)
-  print(clean_token)
+	print("Tokens:")
+	print(tokens)
+	print("Clean Tokens:")
+	print(clean_tokens)
+
+	# only for this practice
+	temp = []
+	temp.append(' '.join(clean_tokens))
+	
+	print("Clean Tokens united:")
+	print(temp)
+
+	#bag of words transformation
+	count_vect = CountVectorizer()
+	bag_of_words_array = count_vect.fit_transform(temp)
+
+	#model training
+	naive_bayes_classifier = MultinomialNB()
+	naive_bayes_classifier.fit(bag_of_words_array,['1'])
+
+	#model predict
+	print("Predict...")
+	print(naive_bayes_classifier.predict(bag_of_words_array))
+
+	"""
+	Implementar 3 oraciones 
+
+	"""
+
